@@ -25,11 +25,10 @@ class App extends Component {
     const styles = editorState.getCurrentInlineStyle()._map._list._tail
     // get current block styles
 
-    console.log(editorState.getBlockTree())
-
     if (styles) {
-      const newToolbar = styles.array.map(a => [a[0], a[1]].join(','))      
+      const newToolbar = styles.array.map(a => a !== undefined? [a[0], a[1]].join(',') : null)      
       this.setState({ toolbar: newToolbar })
+      console.log(newToolbar)
     }     
   }
 
