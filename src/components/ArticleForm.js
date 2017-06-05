@@ -8,7 +8,7 @@ export const ArticleForm = (props) => (
   
  <FormGroup controlId="formBasicText">
   <Col sm={12}>
-  	<FormControl type="text" placeholder="Title of the article" onChange={props.titleChange} value={props.title} />
+  	<FormControl type="text" placeholder="Give a title to your article..." onChange={props.titleChange} value={props.title} />
   </Col>
  </FormGroup>
 
@@ -19,6 +19,7 @@ export const ArticleForm = (props) => (
         editorState={props.editor} 
         onChange={props.editorChange} 
         spellCheck={true}
+        placeholder='Share your thoughts...'
       />
     </div>
   </Col>

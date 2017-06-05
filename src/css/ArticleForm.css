@@ -2,3 +2,9 @@
 	font-size: 25px;
 	margin-bottom: 0;
 }
+
+.public-DraftEditorPlaceholder-root {
+	position: absolute;
+	pointer-events: none;
+	color: #949292;
+}
