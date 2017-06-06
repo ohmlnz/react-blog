@@ -1,0 +1,20 @@
+{
+	"inline": [
+		{"id": "BOLD", "label": "Bold"},
+		{"id": "ITALIC", "label": "Italic"},
+		{"id": "UNDERLINE", "label": "Underline"},
+		{"id": "MONOSPACE", "label": "Monospace"}
+	],
+	"block": [
+		{"id": "header-one", "label": "H1"},
+		{"id": "header-two", "label": "H2"},
+		{"id": "header-three", "label": "H3"},
+		{"id": "header-four", "label": "H4"},
+		{"id": "header-five", "label": "H5"},
+		{"id": "header-six", "label": "H6"},
+		{"id": "blockquote", "label": "Blockquote"},
+		{"id": "unordered-list-item", "label": "UL"},
+		{"id": "ordered-list-item", "label": "OL"},
+		{"id": "code-block", "label": "Code Block"}
+	]
+}

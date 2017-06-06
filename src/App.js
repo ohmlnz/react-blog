@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import './App.css';
+import { stateToHTML } from 'draft-js-export-html';
+import { EditorState } from 'draft-js';
+import { PageHeader, Button } from 'react-bootstrap';
+
 import { ArticleForm } from './components/ArticleForm';
 import { ArticlesList } from './components/ArticlesList' 
-import { PageHeader, Button } from 'react-bootstrap';
-import { EditorState } from 'draft-js';
-import { toBold, toItalic, toUnderline, toMonospace, toH1, toH2, toH3,toH4, toH5,  
-toH6, toBlockquote, toOL, toUL, toCodeblock } from './helpers/toolbar';
-import { stateToHTML } from 'draft-js-export-html';
+import { toInline, toBlock } from './helpers/toolbar';
+import './App.css';
+import buttons from './data/buttons.json';
+
 
 class App extends Component {
   state = {
@@ -68,29 +70,31 @@ class App extends Component {
         {articles}
         
         <PageHeader><small>Add a new entry</small></PageHeader>
-        
-        <Button bsClass='btn-custom' active={this.state.toolbar.indexOf('header-one,true') !== -1? true: false} onClick={() => this.onChange(toH1(this.state.editorState))}>H1</Button> 
-        <Button bsClass='btn-custom' active={this.state.toolbar.indexOf('header-two,true') !== -1? true: false} onClick={() => this.onChange(toH2(this.state.editorState))}>H2</Button> 
-        <Button bsClass='btn-custom' active={this.state.toolbar.indexOf('header-three,true') !== -1? true: false} onClick={() => this.onChange(toH3(this.state.editorState))}>H3</Button> 
-        <Button bsClass='btn-custom' active={this.state.toolbar.indexOf('header-four,true') !== -1? true: false} onClick={() => this.onChange(toH4(this.state.editorState))}>H4</Button> 
-        <Button bsClass='btn-custom' active={this.state.toolbar.indexOf('header-five,true') !== -1? true: false} onClick={() => this.onChange(toH5(this.state.editorState))}>H5</Button> 
-        <Button bsClass='btn-custom' active={this.state.toolbar.indexOf('header-six,true') !== -1? true: false} onClick={() => this.onChange(toH6(this.state.editorState))}>H6</Button> 
-        <Button bsClass='btn-custom' active={this.state.toolbar.indexOf('blockquote,true') !== -1? true: false} onClick={() => this.onChange(toBlockquote(this.state.editorState))}>Blockquote</Button> 
-        <Button bsClass='btn-custom' active={this.state.toolbar.indexOf('unordered-list-item,true') !== -1? true: false} onClick={() => this.onChange(toUL(this.state.editorState))}>UL</Button> 
-        <Button bsClass='btn-custom' active={this.state.toolbar.indexOf('ordered-list-item,true') !== -1? true: false} onClick={() => this.onChange(toOL(this.state.editorState))}>OL</Button> 
-        <Button bsClass='btn-custom' active={this.state.toolbar.indexOf('code-block,true') !== -1? true: false} onClick={() => this.onChange(toCodeblock(this.state.editorState))}>Code Block</Button> 
-        
-        <Button bsClass='btn-custom' active={this.state.toolbar.indexOf('BOLD,true') !== -1? true : false} onClick={() => this.onChange(toBold(this.state.editorState))}>Bold</Button>
-        <Button bsClass='btn-custom' active={this.state.toolbar.indexOf('ITALIC,true') !== -1? true : false} onClick={() => this.onChange(toItalic(this.state.editorState))}>Italic</Button>
-        <Button bsClass='btn-custom' active={this.state.toolbar.indexOf('UNDERLINE,true') !== -1? true : false} onClick={() => this.onChange(toUnderline(this.state.editorState))}>Underline</Button>
-        <Button bsClass='btn-custom' active={this.state.toolbar.indexOf('CODE,true') !== -1? true : false} onClick={() => this.onChange(toMonospace(this.state.editorState))}>Monospace</Button>
+
+        {buttons.block.map((b, index) =>
+          <Button 
+            key={index}
+            bsClass='btn-custom' 
+            active={this.state.toolbar.indexOf(`{b.id},true`) !== -1? true: false} 
+            onClick={() => this.onChange(toBlock(this.state.editorState, b.id))}>{b.label}
+          </Button> 
+        )}
+
+        {buttons.inline.map((b, index) =>
+          <Button 
+            key={index}
+            bsClass='btn-custom' 
+            active={this.state.toolbar.indexOf(`${b.id},true`) !== -1? true: false} 
+            onClick={() => this.onChange(toInline(this.state.editorState, b.id))}>{b.label}
+          </Button> 
+        )}
                 
         <ArticleForm 
           titleChange={this.titleChange} 
           title={this.state.title} 
           editor={this.state.editorState} 
           editorChange={this.onChange}
-          submit={this.submitArticle} 
+          submit={this.submitArticle}
         />
 
       </div>
