@@ -2,6 +2,7 @@ import React from 'react';
 import { Col, Form, FormGroup, FormControl, Button } from 'react-bootstrap';
 import '../css/ArticleForm.css';
 import { Editor } from 'draft-js';
+import PropTypes from 'prop-types';
 
 export const ArticleForm = (props) => (
     <Form horizontal onSubmit={props.submit}>
@@ -35,3 +36,11 @@ export const ArticleForm = (props) => (
 
     </Form>
 )
+
+ArticleForm.propTypes = {
+  submit: PropTypes.func,
+  titleChange: PropTypes.func,
+  title: PropTypes.string,
+  editor: PropTypes.object,
+  editorChange: PropTypes.func
+};
