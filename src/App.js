@@ -25,13 +25,31 @@ class App extends Component {
     })
 
     const styles = editorState.getCurrentInlineStyle()._map._list._tail
-    // get current block styles
+    var startKey = editorState.getSelection().getStartKey();
+    var selectedBlockType = editorState
+    .getCurrentContent()
+    .getBlockForKey(startKey)
+    .getType()
+  
+
+    if ((selectedBlockType !== 'unstyled') && styles) {
+      const newInline = styles.array.map(a => a !== undefined? [a[0], a[1]].join(',') : null) 
+      const newBlock = [selectedBlockType + ',true']
+      const total = newBlock.concat(newInline)   
+      this.setState({ toolbar: total })  
+      return
+    }
 
     if (styles) {
-      const newToolbar = styles.array.map(a => a !== undefined? [a[0], a[1]].join(',') : null)      
-      this.setState({ toolbar: newToolbar })
-      console.log(newToolbar)
-    }     
+      const newInline = styles.array.map(a => a !== undefined? [a[0], a[1]].join(',') : null) 
+      this.setState({ toolbar: newInline })  
+    }
+
+    if (selectedBlockType !== 'unstyled') {
+      const newBlock = [selectedBlockType + ',true']
+      this.setState({ toolbar: newBlock })
+
+    }
   }
 
   titleChange = (e) => {
@@ -75,7 +93,7 @@ class App extends Component {
           <Button 
             key={index}
             bsClass='btn-custom' 
-            active={this.state.toolbar.indexOf(`{b.id},true`) !== -1? true: false} 
+            active={this.state.toolbar.indexOf(`${b.id},true`) !== -1? true: false} 
             onClick={() => this.onChange(toBlock(this.state.editorState, b.id))}>{b.label}
           </Button> 
         )}

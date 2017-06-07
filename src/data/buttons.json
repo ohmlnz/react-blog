@@ -3,7 +3,7 @@
 		{"id": "BOLD", "label": "Bold"},
 		{"id": "ITALIC", "label": "Italic"},
 		{"id": "UNDERLINE", "label": "Underline"},
-		{"id": "MONOSPACE", "label": "Monospace"}
+		{"id": "CODE", "label": "Monospace"}
 	],
 	"block": [
 		{"id": "header-one", "label": "H1"},
