@@ -1,5 +1,6 @@
 import React from 'react';
 import { Col, Form, FormGroup, FormControl, Button } from 'react-bootstrap';
+
 import '../css/ArticleForm.css';
 import { Editor } from 'draft-js';
 import PropTypes from 'prop-types';

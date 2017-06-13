@@ -8,6 +8,7 @@ import { ArticlesList } from './components/ArticlesList'
 import { toInline, toBlock } from './helpers/toolbar';
 import './App.css';
 import buttons from './data/buttons.json';
+import { posts } from './components/Firebase.js'
 
 
 class App extends Component {
@@ -16,6 +17,16 @@ class App extends Component {
     articles: [],
     title: '',
     editorState: EditorState.createEmpty()
+  }
+
+  componentDidMount = () => {
+    posts.orderByValue().limitToLast(3).on("value", (snapshot) => {
+      var posts = snapshot.val()
+
+      this.setState({ 
+        articles: posts
+      })
+    });
   }
 
   onChange = (editorState) => {
@@ -73,7 +84,8 @@ class App extends Component {
     this.setState({
       articles,
       title: '',
-      editorState: EditorState.createEmpty()
+      editorState: EditorState.createEmpty(),
+      toolbar: []
     });
   }
 
