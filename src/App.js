@@ -2,14 +2,15 @@ import React, { Component } from 'react';
 import { stateToHTML } from 'draft-js-export-html';
 import { EditorState } from 'draft-js';
 import { PageHeader, Button } from 'react-bootstrap';
-import firebase from 'firebase'
+import firebase from 'firebase';
+import orderBy from 'lodash/orderBy';
 
 import { ArticleForm } from './components/ArticleForm';
-import { ArticlesList } from './components/ArticlesList' 
+import { ArticlesList } from './components/ArticlesList';
 import { toInline, toBlock } from './helpers/toolbar';
 import './App.css';
 import buttons from './data/buttons.json';
-import { posts, addPost, provider } from './helpers/firebase.js'
+import { posts, addPost, provider } from './helpers/firebase.js';
 
 
 class App extends Component {
@@ -23,12 +24,9 @@ class App extends Component {
   }
 
   componentDidMount = () => {
-    posts.orderByValue().limitToLast(5).on("value", (snapshot) => {
-      var posts = snapshot.val()
-
-      this.setState({ 
-        articles: posts
-      })
+    posts.orderByValue().limitToLast(5).on('value', (snapshot) => {
+      var articles = snapshot.val()
+      this.setState({ articles: orderBy(articles, ['timestamp'], ['desc']) })
     });
   }
 
@@ -48,7 +46,14 @@ class App extends Component {
   }
 
   logout = () => {
-    // ... to do
+    firebase.auth().signOut().then(() => {
+      this.setState({
+        user: '',
+        addArticle: 'none'
+      })
+    }).catch(function(error) {
+      console.log(error)
+    });
   }
 
   onChange = (editorState) => {
@@ -102,16 +107,17 @@ class App extends Component {
     const id = this.state.articles.length+1
     const title = this.state.title
     const content = stateToHTML(this.state.editorState.getCurrentContent())
+    const timestamp = Date.now()
 
-    const article = { "id": id, "title": title, "content": content }
+    const article = { "id": id, "title": title, "content": content, "timestamp": timestamp }
     const articles = this.state.articles.concat(article)
 
     // Push changes to DB
-    addPost(id-1, id, title, content)
+    addPost(id-1, id, title, content, timestamp)
 
     // Reset local state
     this.setState({
-      articles,
+      articles: orderBy(articles, ['timestamp'], ['desc']),
       title: '',
       editorState: EditorState.createEmpty(),
       toolbar: []
@@ -119,15 +125,14 @@ class App extends Component {
   }
 
   render() {
-
     const articles = this.state.articles.length? <ArticlesList articles={this.state.articles} /> : ''
     const user = this.state.user.length? this.state.user : 'Login'
-    const logout = this.state.user.length? this.login : this.logout
+    const logout = this.state.user.length? this.logout : this.login
 
     return (
       <div className="App">
 
-        <Button onClick={this.login}>{user}</Button>
+        <Button onClick={logout}>{user}</Button>
 
         <PageHeader className='title'>React Blog</PageHeader>
 
