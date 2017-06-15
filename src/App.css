@@ -4,6 +4,10 @@
   margin-top: 1em;
 }
 
+.button-wrapper {
+  text-align: right;
+}
+
 .title {
 	border: none;
 }

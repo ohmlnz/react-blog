@@ -131,8 +131,9 @@ class App extends Component {
 
     return (
       <div className="App">
-
-        <Button onClick={logout}>{user}</Button>
+        <div className="button-wrapper">
+          <Button onClick={logout}>{user}</Button>
+        </div>
 
         <PageHeader className='title'>React Blog</PageHeader>
 
