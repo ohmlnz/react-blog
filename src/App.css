@@ -8,6 +8,15 @@
   text-align: right;
 }
 
+.button-wrapper .btn-default {
+  background-color: transparent;
+  color: #fff;
+}
+
+.button-wrapper .btn-default:hover {
+  opacity: .6;
+}
+
 .title {
 	border: none;
 }
@@ -15,13 +24,14 @@
 .title h1 {
 	text-align: center;
 	font-weight: 900;
+  color: #fff;
 }
 
 
 .btn-custom {
-	color: #bfbfbf;
+	color: #777;
 	margin-bottom: 1em;
-  background-color: #fff;
+  background-color: transparent;
   padding: 6px 9px;
   font-size: 14px;
   font-weight: 400;

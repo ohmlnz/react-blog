@@ -1,3 +1,10 @@
-.panel-heading {
+.panel-default {
+	border-color: #909090;
+}
+
+.panel-default > .panel-heading {
 	text-align: center;
+	color: #fff;
+	background-color: #4d4d4d;
+	border-color: #4d4d4d;
 }
