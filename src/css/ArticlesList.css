@@ -16,11 +16,16 @@
 .fa-trash-o {
   position: absolute;
   right: 1em;
-  top: -1.6em;
+  top: -1.55em;
   font-size: 1.5em;
+  color: rgba(255, 255, 255, 0.64);
 }
 
 .fa-trash-o:hover {
 	cursor: pointer;
 	opacity: .7;
+}
+
+.timestamp {
+	color: rgba(34, 34, 34, 0.47);
 }
