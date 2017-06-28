@@ -27,7 +27,6 @@
   color: #fff;
 }
 
-
 .btn-custom {
 	color: #777;
 	margin-bottom: 1em;
@@ -59,4 +58,12 @@
 
 .btn-custom.active {
 	color: #5587a7;
+}
+
+.nothingness {
+  color: rgba(255, 255, 255, 0.15);
+  font-family: Helvetica Neue;
+  font-size: 1.6em;
+  text-align: center;
+  margin-top: 5em;
 }

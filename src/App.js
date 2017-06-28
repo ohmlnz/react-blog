@@ -124,8 +124,18 @@ class App extends Component {
     });
   }
 
+  removeArticle = (e) => {
+    var id = e.target.id-1;
+    var ref = firebase.database().ref(`posts/${id}`);
+
+    ref.remove(function(error) {
+      console.log(error? error : '');
+    });
+  }
+
   render() {
-    const articles = this.state.articles.length? <ArticlesList articles={this.state.articles} /> : ''
+    const articles = this.state.articles.length? 
+    <ArticlesList articles={this.state.articles} removeArticle={this.removeArticle} removeState={this.state.addArticle}/> : <p className='nothingness'>Nothing has been posted yet :'(</p>
     const user = this.state.user.length? this.state.user : 'Login'
     const logout = this.state.user.length? this.logout : this.login
 

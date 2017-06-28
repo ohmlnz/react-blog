@@ -8,3 +8,19 @@
 	background-color: #4d4d4d;
 	border-color: #4d4d4d;
 }
+
+.panel-body {
+	position: relative;
+}
+
+.fa-trash-o {
+  position: absolute;
+  right: 1em;
+  top: -1.6em;
+  font-size: 1.5em;
+}
+
+.fa-trash-o:hover {
+	cursor: pointer;
+	opacity: .7;
+}
