@@ -16,7 +16,7 @@ export const ArticlesList = (props) => (
 				<span dangerouslySetInnerHTML={{__html: a.content}} />
 				<hr/>
 				<span className='timestamp'>Posted <Moment fromNow>{a.timestamp}</Moment>.</span>
-				<span className='comments' onClick={() => props.test(a.id, a.showComments)}>{a.comments? `There are ${a.comments} comments.` : 'There are no comments yet.'}</span>
+				<span className='comments' onClick={() => props.revealComments(a.id, a.showComments)}>{a.comments? `There are ${a.comments} comments.` : 'There are no comments yet.'}</span>
 			</Panel>
 			<CommentSection showComments={a.showComments} />
 		</div>)}
@@ -25,5 +25,6 @@ export const ArticlesList = (props) => (
 )
 
 ArticlesList.propTypes = {
-  articles: PropTypes.array
+  articles: PropTypes.array,
+  revealComments: PropTypes.func
 };

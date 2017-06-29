@@ -136,7 +136,7 @@ class App extends Component {
     });
   }
 
-  test = (id, state) => {
+  revealComments = (id, state) => {
     const newState = state === 'none'? 'block' : 'none'
     const elemPos = id-1
 
@@ -148,7 +148,7 @@ class App extends Component {
     <ArticlesList articles={this.state.articles} 
                   removeArticle={this.removeArticle} 
                   removeState={this.state.addArticle}
-                  test={this.test}
+                  revealComments={this.revealComments}
     /> : <p className='nothingness'>Nothing has been posted yet :'(</p>
     const user = this.state.user.length? this.state.user : 'Login'
     const logout = this.state.user.length? this.logout : this.login
