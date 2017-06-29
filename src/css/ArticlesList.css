@@ -27,6 +27,14 @@
 	opacity: .7;
 }
 
-.timestamp {
+.timestamp, .comments {
 	color: rgba(34, 34, 34, 0.47);
+}
+
+.comments {
+	float: right;
+}
+
+.comments:hover {
+	cursor: pointer;
 }

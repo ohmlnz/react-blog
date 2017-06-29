@@ -4,6 +4,7 @@ import { EditorState } from 'draft-js';
 import { PageHeader, Button } from 'react-bootstrap';
 import firebase from 'firebase';
 import orderBy from 'lodash/orderBy';
+import startsWith from 'lodash/startsWith';
 
 import { ArticleForm } from './components/ArticleForm';
 import { ArticlesList } from './components/ArticlesList';
@@ -25,7 +26,7 @@ class App extends Component {
 
   componentDidMount = () => {
     posts.orderByValue().limitToLast(5).on('value', (snapshot) => {
-      var articles = snapshot.val()
+      const articles = snapshot.val()
       this.setState({ articles: orderBy(articles, ['timestamp'], ['desc']) })
     });
   }
@@ -34,13 +35,13 @@ class App extends Component {
     provider.addScope('user:email')
 
     firebase.auth().signInWithPopup(provider).then((result) => {
-      var user = result.user;      
+      const user = result.user;      
       this.setState({ 
         user: user.displayName,
         addArticle: 'block'
       })
     }).catch(function(error) {
-      var errorMessage = error.message;
+      const errorMessage = error.message;
       console.log(errorMessage)
     })
   }
@@ -63,8 +64,8 @@ class App extends Component {
     })
 
     const styles = editorState.getCurrentInlineStyle()._map._list._tail
-    var startKey = editorState.getSelection().getStartKey();
-    var selectedBlockType = editorState
+    const startKey = editorState.getSelection().getStartKey();
+    const selectedBlockType = editorState
     .getCurrentContent()
     .getBlockForKey(startKey)
     .getType()
@@ -100,7 +101,8 @@ class App extends Component {
   submitArticle = (e) => {
     e.preventDefault()
 
-    if (!this.state.title.length) {
+    // Ensure that the article isn't empty
+    if ((!this.state.title.length) || (startsWith(stateToHTML(this.state.editorState.getCurrentContent()), '<p><br></p>'))) {
       return
     }
 
@@ -108,12 +110,13 @@ class App extends Component {
     const title = this.state.title
     const content = stateToHTML(this.state.editorState.getCurrentContent())
     const timestamp = Date.now()
-
-    const article = { "id": id, "title": title, "content": content, "timestamp": timestamp }
+    const comments = 0
+    const showComments = 'none'
+    const article = { "id": id, "title": title, "content": content, "timestamp": timestamp, "comments": comments, "showComments": showComments }
     const articles = this.state.articles.concat(article)
 
     // Push changes to DB
-    addPost(id-1, id, title, content, timestamp)
+    addPost(id-1, id, title, content, timestamp, comments, showComments)
 
     // Reset local state
     this.setState({
@@ -125,17 +128,28 @@ class App extends Component {
   }
 
   removeArticle = (e) => {
-    var id = e.target.id-1;
-    var ref = firebase.database().ref(`posts/${id}`);
+    const id = e.target.id-1;
+    const ref = firebase.database().ref(`posts/${id}`);
 
     ref.remove(function(error) {
       console.log(error? error : '');
     });
   }
 
+  test = (id, state) => {
+    const newState = state === 'none'? 'block' : 'none'
+    const elemPos = id-1
+
+    firebase.database().ref().child(`/posts/${elemPos}`).update({ showComments: `${newState}`});
+  }
+
   render() {
     const articles = this.state.articles.length? 
-    <ArticlesList articles={this.state.articles} removeArticle={this.removeArticle} removeState={this.state.addArticle}/> : <p className='nothingness'>Nothing has been posted yet :'(</p>
+    <ArticlesList articles={this.state.articles} 
+                  removeArticle={this.removeArticle} 
+                  removeState={this.state.addArticle}
+                  test={this.test}
+    /> : <p className='nothingness'>Nothing has been posted yet :'(</p>
     const user = this.state.user.length? this.state.user : 'Login'
     const logout = this.state.user.length? this.logout : this.login
 
