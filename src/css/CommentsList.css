@@ -1,0 +1,25 @@
+.comments-list {
+	display: flex;
+  height: auto;
+  margin-bottom: 2em;
+}
+
+.user-avatar {
+	width: 15%;
+}
+
+.user-avatar img {
+	border-radius: 100%;
+  width: 70%;
+}
+
+.user-comment {
+  flex-grow: 3;
+  color: white;
+  padding-right: 1em;
+}
+
+.comment-timestamp {
+	color: rgba(255, 255, 255, 0.56);
+  margin-right: 1em;
+}

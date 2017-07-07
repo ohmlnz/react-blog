@@ -5,11 +5,11 @@ import PropTypes from 'prop-types';
 import '../css/CommentSection.css';
 
 export const CommentSection = (props) => (
-    <Form horizontal bsClass='comment-section' style={{display: `${props.showComments}`}} onSubmit={props.newComments}>
+    <Form horizontal bsClass='comment-section' style={{display: `${props.showComments}`}} onSubmit={() => props.newComments(props.ArticleIndex, props.commentId)}>
       
       <FormGroup controlId="formControlsTextarea">
         <ControlLabel>Comments</ControlLabel>
-        <FormControl componentClass="textarea" placeholder="Type in your comment." style={{minHeight:'120px'}} onChange={() => props.commentChange('bread')}/>
+        <FormControl componentClass="textarea" placeholder="Type in your comment." style={{minHeight:'120px'}} onChange={props.commentChange}/>
       </FormGroup>
 
       <FormGroup>

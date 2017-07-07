@@ -11,7 +11,7 @@ import { ArticlesList } from './components/ArticlesList';
 import { toInline, toBlock } from './helpers/toolbar';
 import './App.css';
 import buttons from './data/buttons.json';
-import { posts, addPost, provider } from './helpers/firebase.js';
+import { posts, addPost, provider, addComment } from './helpers/firebase.js';
 
 
 class App extends Component {
@@ -21,6 +21,7 @@ class App extends Component {
     title: '',
     editorState: EditorState.createEmpty(),
     user: '',
+    userAva: '',
     addArticle: 'none',
     comment: ''
   }
@@ -36,9 +37,11 @@ class App extends Component {
     provider.addScope('user:email')
 
     firebase.auth().signInWithPopup(provider).then((result) => {
-      const user = result.user;      
+      const user = result.user; 
+      console.log(user)     
       this.setState({ 
         user: user.displayName,
+        userAva: user.photoURL,
         addArticle: 'block'
       })
     }).catch(function(error) {
@@ -154,10 +157,12 @@ class App extends Component {
     })
   }
 
-  newComments = (id) => {
-    //e.preventDefault()
-    console.log(id)
+  newComments = (ArticleIndex, commentId) => {
+    const index = ArticleIndex-1
+    const id = isNaN(commentId)? commentId.length : commentId
+    const timestamp = Date.now()
 
+    addComment(index, id, this.state.comment, this.state.user, this.state.userAva, timestamp)
   }
 
   render() {

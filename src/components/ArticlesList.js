@@ -3,7 +3,8 @@ import { Panel } from 'react-bootstrap';
 import Moment from 'react-moment';
 
 import { Pagination } from '../components/Pagination'
-import { CommentSection } from '../components/CommentSection' 
+import { CommentSection } from '../components/CommentSection'
+import { CommentsList } from '../components/CommentsList' 
 import '../css/ArticlesList.css'
 import PropTypes from 'prop-types';
 
@@ -16,9 +17,10 @@ export const ArticlesList = (props) => (
 				<span dangerouslySetInnerHTML={{__html: a.content}} />
 				<hr/>
 				<span className='timestamp'>Posted <Moment fromNow>{a.timestamp}</Moment>.</span>
-				<span className='comments' onClick={() => props.revealComments(a.id, a.showComments)}>{a.comments? `There are ${a.comments} comments.` : 'There are no comments yet.'}</span>
+				<span className='comments' onClick={() => props.revealComments(a.id, a.showComments)}>{a.comments? `There are ${a.comments.length} comments.` : 'There are no comments yet.'}</span>
 			</Panel>
-			<CommentSection showComments={a.showComments} newComments={props.newComments} commentChange={props.commentChange} articleId={a.id}/>
+			{a.comments? <CommentsList comments={a.comments} /> : ''}
+			<CommentSection showComments={a.showComments} newComments={props.newComments} commentChange={props.commentChange} ArticleIndex={a.id} commentId={a.comments} />
 		</div>)}
 		<Pagination />
 	</div>

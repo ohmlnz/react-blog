@@ -17,3 +17,13 @@ export const addPost = (index, id, title, content, timestamp, comments, showComm
     showComments: showComments
   });
 }
+
+export const addComment = (index, id, content, author, avatar, timestamp) => {
+	firebase.database().ref(`posts/${index}/comments/${id}`).set({
+		id: id,
+		content: content,
+		author: author,
+		avatar: avatar,
+		timestamp: timestamp
+	});
+}
