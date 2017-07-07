@@ -18,7 +18,7 @@ export const ArticlesList = (props) => (
 				<span className='timestamp'>Posted <Moment fromNow>{a.timestamp}</Moment>.</span>
 				<span className='comments' onClick={() => props.revealComments(a.id, a.showComments)}>{a.comments? `There are ${a.comments} comments.` : 'There are no comments yet.'}</span>
 			</Panel>
-			<CommentSection showComments={a.showComments} />
+			<CommentSection showComments={a.showComments} newComments={props.newComments} commentChange={props.commentChange} articleId={a.id}/>
 		</div>)}
 		<Pagination />
 	</div>

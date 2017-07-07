@@ -21,7 +21,8 @@ class App extends Component {
     title: '',
     editorState: EditorState.createEmpty(),
     user: '',
-    addArticle: 'none'
+    addArticle: 'none',
+    comment: ''
   }
 
   componentDidMount = () => {
@@ -140,7 +141,23 @@ class App extends Component {
     const newState = state === 'none'? 'block' : 'none'
     const elemPos = id-1
 
-    firebase.database().ref().child(`/posts/${elemPos}`).update({ showComments: `${newState}`});
+    firebase.database().ref().child(`/posts/${elemPos}`)
+    .update({ showComments: `${newState}`})
+    .catch(function(error) {
+      console.log(error);
+    })
+  }
+
+  commentChange = (e) => {
+    this.setState({
+      comment: e.target.value
+    })
+  }
+
+  newComments = (id) => {
+    //e.preventDefault()
+    console.log(id)
+
   }
 
   render() {
@@ -149,6 +166,8 @@ class App extends Component {
                   removeArticle={this.removeArticle} 
                   removeState={this.state.addArticle}
                   revealComments={this.revealComments}
+                  newComments={this.newComments}
+                  commentChange={this.commentChange}
     /> : <p className='nothingness'>Nothing has been posted yet :'(</p>
     const user = this.state.user.length? this.state.user : 'Login'
     const logout = this.state.user.length? this.logout : this.login
