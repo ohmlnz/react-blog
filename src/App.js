@@ -38,7 +38,7 @@ class App extends Component {
 
     firebase.auth().signInWithPopup(provider).then((result) => {
       const user = result.user; 
-      console.log(user)     
+
       this.setState({ 
         user: user.displayName,
         userAva: user.photoURL,

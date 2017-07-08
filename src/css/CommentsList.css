@@ -1,5 +1,5 @@
 .comments-list {
-	display: flex;
+  display: flex;
   height: auto;
   margin-bottom: 2em;
 }
@@ -17,9 +17,16 @@
   flex-grow: 3;
   color: white;
   padding-right: 1em;
+  padding-top: 1em;
 }
 
 .comment-timestamp {
 	color: rgba(255, 255, 255, 0.56);
   margin-right: 1em;
+  padding-top: 1em;
+}
+
+hr {
+  border-top: 1px solid rgba(238, 238, 238, 0.11);
+  width: 97%;
 }
