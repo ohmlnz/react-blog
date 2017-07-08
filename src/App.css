@@ -26,7 +26,6 @@
 	font-weight: 900;
   color: #fff;
   margin-top: -1em;
-  margin-bottom: 1em;
 }
 
 .btn-custom {
@@ -54,7 +53,6 @@
 
 .btn-custom:hover {
 	background-color: unset;
-	color: unset;
 	opacity: .7;
 }
 

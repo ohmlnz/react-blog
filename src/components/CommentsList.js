@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 import '../css/CommentsList.css'
 
 export const CommentsList = (props) => (
-	<div>{props.comments.map(a => 
-		<div style={{display: `${props.showComments}`}}>
+	<div style={{marginTop: '2em'}}>{props.comments.map(a => 
+		<div className='comment-wrapper' style={{display: `${props.showComments}`}}>
 			<div className='comments-list' key={a.id}>
 				<div className='user-avatar'><img src={a.avatar} alt='user avatar'/></div>
 				<div className='user-comment'>{a.content}</div>

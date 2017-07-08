@@ -8,7 +8,7 @@ export const CommentSection = (props) => (
     <Form horizontal bsClass='comment-section' style={{display: `${props.showComments}`}} onSubmit={() => props.newComments(props.ArticleIndex, props.commentId)}>
       
       <FormGroup controlId="formControlsTextarea">
-        <ControlLabel>Comments</ControlLabel>
+        <ControlLabel>Leave your comment below.</ControlLabel>
         <FormControl componentClass="textarea" placeholder="Type in your comment." style={{minHeight:'120px'}} onChange={props.commentChange}/>
       </FormGroup>
 

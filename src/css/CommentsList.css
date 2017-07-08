@@ -1,3 +1,7 @@
+.comment-wrapper:last-child hr {
+  visibility: hidden;
+}
+
 .comments-list {
   display: flex;
   height: auto;
