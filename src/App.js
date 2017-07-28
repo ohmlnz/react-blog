@@ -22,6 +22,7 @@ class App extends Component {
     editorState: EditorState.createEmpty(),
     user: '',
     userAva: '',
+    userProfile: '',
     addArticle: 'none',
     comment: ''
   }
@@ -42,6 +43,7 @@ class App extends Component {
       this.setState({ 
         user: user.displayName,
         userAva: user.photoURL,
+        userProfile: result.additionalUserInfo.profile.html_url,
         addArticle: 'block'
       })
     }).catch(function(error) {
@@ -162,7 +164,7 @@ class App extends Component {
     const id = isNaN(commentId)? commentId.length : commentId
     const timestamp = Date.now()
 
-    addComment(index, id, this.state.comment, this.state.user, this.state.userAva, timestamp)
+    addComment(index, id, this.state.comment, this.state.user, this.state.userAva, this.state.userProfile, timestamp)
   }
 
   render() {
