@@ -39,3 +39,7 @@
 .comments:hover {
 	cursor: pointer;
 }
+
+.article-container:hover {
+	cursor: pointer;
+}
