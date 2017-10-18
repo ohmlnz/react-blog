@@ -3,12 +3,12 @@ import { config } from '../config.js'
 
 firebase.initializeApp(config);
 
-export const posts = firebase.database().ref('posts');
+export const articles = firebase.database().ref('articles');
 
 export const provider = new firebase.auth.GithubAuthProvider();
 
 export const addPost = (index, id, title, content, timestamp, comments, showComments) => {
-  firebase.database().ref('posts/' + index).set({
+  firebase.database().ref('articles/' + index).set({
   	id: id,
     title: title,
     content: content,
@@ -19,7 +19,7 @@ export const addPost = (index, id, title, content, timestamp, comments, showComm
 }
 
 export const addComment = (index, id, content, author, avatar, profile, timestamp) => {
-	firebase.database().ref(`posts/${index}/comments/${id}`).set({
+	firebase.database().ref(`articles/${index}/comments/${id}`).set({
 		id: id,
 		content: content,
 		author: author,
