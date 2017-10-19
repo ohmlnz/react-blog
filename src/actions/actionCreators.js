@@ -19,24 +19,26 @@ export const receiveArticles = (pageIndex, json) => {
 
 export function fetchArticles(pageIndex) {
   return function (dispatch) {
-		pageIndex = pageIndex !== 1? pageIndex * 5: pageIndex + 4;
+		const end = pageIndex + 4;
 
-		articles.orderByChild('id').startAt(pageIndex).on('value', (snapshot) => {
+		articles.orderByChild('id').startAt(pageIndex).endAt(end).on('value', (snapshot) => {
     	setTimeout(() => {
-				const articles = snapshot.val() || [];
+				let articles = snapshot.val() || [];
+				if (Array.isArray(articles) !== true) {
+					const arr = [];
+					Object.entries(articles).forEach(([key, val]) => {
+				    arr.push(val);  
+					});
+					articles = arr;
+				}
+
 				dispatch(receiveArticles(pageIndex, articles))
       }, 0);
 		});
-    // return fetch(`https://jsonplaceholder.typicode.com/posts/${pageIndex}`)
-    //   .then(
-    //     response => response.json(),
-    //     error => console.log('An error occured.', error)
-    //   )
-    //   .then(json =>
-    //     dispatch(receiveArticles(pageIndex, json))
-    //   )
   }
 }
+
+
 
 // Remove an article
 export const removeArticle = (post) => {

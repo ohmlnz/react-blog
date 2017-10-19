@@ -13,8 +13,9 @@ const articlesReducer = (state = [], action) => {
 		case 'RECEIVE_ARTICLES':
 			return {
 				...state,
-				articles: action.articles, 
-				lastUpdated: action.receivedAt
+				articles: action.articles,
+				lastUpdated: action.receivedAt,
+				pageIndex: action.pageIndex
 			}
 		default:
 			return state;
