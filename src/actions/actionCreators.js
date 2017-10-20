@@ -1,5 +1,13 @@
 // import fetch from 'isomorphic-fetch';
+import firebase from 'firebase'
 import { articles } from '../helpers/firebase.js';
+
+export const removeArticle = (article) => {
+	return {
+		type: 'REMOVE_ARTICLE',
+		article
+	}
+}
 
 export const selectedPage = (pageIndex) => {
 	return {
@@ -8,10 +16,11 @@ export const selectedPage = (pageIndex) => {
 	}
 }
 
-export const receiveArticles = (pageIndex, json) => {
+export const receiveArticles = (pageIndex, total, json) => {
 	return {
 		type: 'RECEIVE_ARTICLES',
 		pageIndex,
+		total,
 		articles: json,
 		receivedAt: Date.now()
 	}
@@ -20,32 +29,33 @@ export const receiveArticles = (pageIndex, json) => {
 export function fetchArticles(pageIndex) {
   return function (dispatch) {
 		const end = pageIndex + 4;
+		let total;
 
-		articles.orderByChild('id').startAt(pageIndex).endAt(end).on('value', (snapshot) => {
-    	setTimeout(() => {
-				let articles = snapshot.val() || [];
-				if (Array.isArray(articles) !== true) {
-					const arr = [];
-					Object.entries(articles).forEach(([key, val]) => {
-				    arr.push(val);  
-					});
-					articles = arr;
-				}
-
-				dispatch(receiveArticles(pageIndex, articles))
-      }, 0);
-		});
+		articles.once('value', (snapshot) => {	
+   		total = snapshot.numChildren(); 
+			const a = [];
+			snapshot.forEach(function(childSnapshot) {
+				a.push(childSnapshot.val());
+			});
+			const arr = a.slice(pageIndex, end)
+			dispatch(receiveArticles(pageIndex, total, arr))
+    });
   }
 }
 
-
-
-// Remove an article
-export const removeArticle = (post) => {
-	return {
-		type: 'REMOVE_ARTICLE',
-		post
-	}
+// Remove article from Firebase
+export function removeFirebase(article) {
+	return function(dispatch) {
+  	const ref = firebase.database().ref(`articles/${article.id}`);
+  	ref.remove()
+  	.then(function() {
+			dispatch(removeArticle(article));
+			console.log('success')
+  	})
+  	.catch(function(err) {
+  		console.log(err);
+  	})
+  }
 }
 
 

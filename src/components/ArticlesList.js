@@ -8,7 +8,7 @@ import '../css/ArticlesList.css';
 const ArticlesList = ({blogState, trashArticle, loadPage}) => (
   <div className="App">
     <PageHeader className='title'>Othman's Blog</PageHeader>
-      {blogState.articles.map(a => 
+      {Array.isArray(blogState.articles)? blogState.articles.map(a => 
         <div className='article-wrapper' key={a.id}>
           <LinkContainer to={`/article/${a.id}`} className="article-container">
             <div key={a.id}>
@@ -21,11 +21,10 @@ const ArticlesList = ({blogState, trashArticle, loadPage}) => (
             </div>
           </LinkContainer>
           <i className="fa fa-trash-o" aria-hidden="true" id={a.id} onClick={() => trashArticle(a)}></i>
-        </div>)}
+        </div>) : <p className='nothingness'>{blogState.articles}</p>} 
         <Pager>
-          <div>{blogState.articles? blogState.articles.length : ''}</div>
           <Pager.Item previous href="#" disabled={blogState.pageIndex === 0? true : false} onClick={() => loadPage(blogState.pageIndex - 5)}>&larr; Previous Page</Pager.Item>
-          <Pager.Item next href="#"  disabled={blogState.articles && blogState.articles.length === blogState.pageIndex? true : false} onClick={() => loadPage(blogState.pageIndex + 5)}>Next Page &rarr;</Pager.Item>
+          <Pager.Item next href="#" disabled={blogState.pageIndex+5 > blogState.total? true : false} onClick={() => loadPage(blogState.pageIndex + 5)}>Next Page &rarr;</Pager.Item>
         </Pager>
   </div>
 );

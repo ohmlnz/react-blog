@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import ArticlesList from '../components/ArticlesList';
-import { removeArticle, fetchArticles } from '../actions/actionCreators';
+import { removeFirebase, fetchArticles } from '../actions/actionCreators';
 
 const mapStateToProps = state => {
 	return {
@@ -10,8 +10,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		trashArticle: post => {
-			dispatch(removeArticle(post))
+		trashArticle: article => {
+			dispatch(removeFirebase(article))
 		},
 		loadPage: index => {
 			dispatch(fetchArticles(index))

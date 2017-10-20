@@ -1,9 +1,8 @@
 const articlesReducer = (state = [], action) => {
 	switch (action.type) {
 		case 'REMOVE_ARTICLE':
-			const i = state.articles.indexOf(action.post);
-			
-			return {
+			const i = state.articles.indexOf(action.article);
+ 			return {
 				...state,
 				articles: [
 					...state.articles.slice(0, i),
@@ -13,7 +12,10 @@ const articlesReducer = (state = [], action) => {
 		case 'RECEIVE_ARTICLES':
 			return {
 				...state,
-				articles: action.articles,
+				articles: !action.articles.length?
+				`There aren't any more articles :'(`:
+				action.articles,
+				total: action.total,
 				lastUpdated: action.receivedAt,
 				pageIndex: action.pageIndex
 			}
