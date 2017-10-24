@@ -2,6 +2,13 @@
 import firebase from 'firebase'
 import { articles } from '../helpers/firebase.js';
 
+export const toEdit = (current) => {
+	return {
+		type: 'CHANGE_MODE',
+		current
+	}
+}
+
 export const removeArticle = (article) => {
 	return {
 		type: 'REMOVE_ARTICLE',
@@ -9,12 +16,12 @@ export const removeArticle = (article) => {
 	}
 }
 
-export const selectedPage = (pageIndex) => {
-	return {
-		type: 'SELECTED_PAGE',
-		pageIndex
-	}
-}
+// export const selectedPage = (pageIndex) => {
+// 	return {
+// 		type: 'SELECTED_PAGE',
+// 		pageIndex
+// 	}
+// }
 
 export const receiveArticles = (pageIndex, total, json) => {
 	return {
@@ -67,8 +74,7 @@ export function removeFirebase(article) {
 // 		articleId
 // 	}
 // }
-
-
+//
 // // Remove a comment
 // export function removeComment(commentId) {
 // 	return {
@@ -90,4 +96,3 @@ export function removeFirebase(article) {
 // 		commentId
 // 	}
 // }
-// // Next page and previous page

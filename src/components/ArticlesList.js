@@ -5,7 +5,7 @@ import Moment from 'react-moment';
 
 import '../css/ArticlesList.css';
 
-const ArticlesList = ({blogState, trashArticle, loadPage}) => (
+const ArticlesList = ({blogState, editMode, trashArticle, loadPage}) => (
   <div className="App">
     <PageHeader className='title'>Othman's Blog</PageHeader>
       {Array.isArray(blogState.articles)? blogState.articles.map(a => 
@@ -20,10 +20,10 @@ const ArticlesList = ({blogState, trashArticle, loadPage}) => (
               </Panel>
             </div>
           </LinkContainer>
-          <i className="fa fa-trash-o" aria-hidden="true" id={a.id} onClick={() => trashArticle(a)}></i>
+          <i style={{display: editMode? 'block' : 'none'}} className="fa fa-trash-o" aria-hidden="true" id={a.id} onClick={() => trashArticle(a)}></i>
         </div>) : <p className='nothingness'>{blogState.articles}</p>} 
         <Pager>
-          <Pager.Item previous href="#" disabled={blogState.pageIndex === 0? true : false} onClick={() => loadPage(blogState.pageIndex - 5)}>&larr; Previous Page</Pager.Item>
+          <Pager.Item previous href="#" style={{display: blogState.pageIndex === 0? 'none' : 'block'}} disabled={blogState.pageIndex === 0? true : false} onClick={() => loadPage(blogState.pageIndex - 5)}>&larr; Previous Page</Pager.Item>
           <Pager.Item next href="#" disabled={blogState.pageIndex+5 > blogState.total? true : false} onClick={() => loadPage(blogState.pageIndex + 5)}>Next Page &rarr;</Pager.Item>
         </Pager>
   </div>

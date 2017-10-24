@@ -1,0 +1,16 @@
+.edit-mode {
+	text-align: right;
+  margin-right: 2em;
+  margin-top: 2em;	
+}
+
+.edit-mode span {
+  color: white;
+  border: 1px solid white;
+  padding: 7px;
+  border-radius: 2px;
+}
+
+.edit-mode span:hover {
+  cursor: pointer;
+}

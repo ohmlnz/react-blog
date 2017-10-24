@@ -22,7 +22,8 @@ const defaultState = {
 	blogState: {
 		articles: []
 	},
-	selection: null
+	// selection: null
+	editMode: false
 }
 let middleware = applyMiddleware(thunkMiddleware, loggerMiddleware);
 

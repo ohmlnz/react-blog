@@ -4,7 +4,8 @@ import { removeFirebase, fetchArticles } from '../actions/actionCreators';
 
 const mapStateToProps = state => {
 	return {
-		blogState: state.blogState
+		blogState: state.blogState,
+		editMode: state.editMode
 	}
 }
 
