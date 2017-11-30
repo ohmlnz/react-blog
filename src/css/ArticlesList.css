@@ -62,7 +62,7 @@
 }
 
 .title {
-	border: none;
+	border-bottom: none !important;
 }
 
 .title h1 {

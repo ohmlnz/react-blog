@@ -2,6 +2,9 @@
 	text-align: right;
   margin-right: 2em;
   margin-top: 2em;	
+  position: absolute;
+  top: 0;
+  right: 10px;
 }
 
 .edit-mode span {
@@ -13,4 +16,10 @@
 
 .edit-mode span:hover {
   cursor: pointer;
+}
+
+#add-article, .form-horizontal {
+  width: 60%;
+  margin: auto;
+  margin-top: 1em;
 }

@@ -5,8 +5,8 @@ import './App.css';
 
 const App = () => (
 	<div>
-		<EditMode />
 		<LoadArticles />
+		<EditMode />
 	</div>
 )
 

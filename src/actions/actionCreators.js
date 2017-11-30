@@ -16,12 +16,12 @@ export const removeArticle = (article) => {
 	}
 }
 
-// export const selectedPage = (pageIndex) => {
-// 	return {
-// 		type: 'SELECTED_PAGE',
-// 		pageIndex
-// 	}
-// }
+export const selectArticle = (article) => {
+	return {
+		type: 'SELECT_ARTICLE',
+		article
+	}
+}
 
 export const receiveArticles = (pageIndex, total, json) => {
 	return {
@@ -65,7 +65,26 @@ export function removeFirebase(article) {
   }
 }
 
-
+// Add article to Firebase
+export function addFirebase(index, id, title, content, timestamp, comments, showComments) {
+	return function(dispatch) {
+  	firebase.database().ref('articles/' + index).set({
+	  	id: id,
+	    title: title,
+	    content: content,
+	    timestamp: timestamp,
+	    comments: comments,
+	    showComments: showComments
+	  })
+  	.then(function() {
+			dispatch(fetchArticles(0));
+			console.log('success')
+  	})
+  	.catch(function(err) {
+  		console.log(err);
+  	})
+  }
+}
 
 // // Add an article
 // export function addArticle(articleId) {

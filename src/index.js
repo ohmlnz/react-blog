@@ -2,10 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './index.css';
+import { EditorState } from 'draft-js';
 
 // Import components
-import Article from './components/Article';
 import App from './App';
+import Single from './containers/Single';
 
 // Redux stuff
 import thunkMiddleware from 'redux-thunk'
@@ -22,8 +23,11 @@ const defaultState = {
 	blogState: {
 		articles: []
 	},
-	// selection: null
-	editMode: false
+	editor: {
+		editMode: false,
+		editorState: EditorState.createEmpty(),
+		toolbar: []
+	}
 }
 let middleware = applyMiddleware(thunkMiddleware, loggerMiddleware);
 
@@ -45,7 +49,7 @@ const BlogRouter = () => (
 	  <Router>
 	  	<div>	
 		    <Route exact path="/" component={App} />
-		    <Route path="/article/:articleId" component={Article} />
+		    <Route path="/article/:articleId" component={Single} />
 	  	</div>
 	  </Router>
 	</Provider>

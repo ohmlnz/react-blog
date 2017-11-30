@@ -5,7 +5,7 @@ import Moment from 'react-moment';
 
 import '../css/ArticlesList.css';
 
-const ArticlesList = ({blogState, editMode, trashArticle, loadPage}) => (
+const ArticlesList = ({blogState, editor, trashArticle, loadPage}) => (
   <div className="App">
     <PageHeader className='title'>Othman's Blog</PageHeader>
       {Array.isArray(blogState.articles)? blogState.articles.map(a => 
@@ -20,7 +20,7 @@ const ArticlesList = ({blogState, editMode, trashArticle, loadPage}) => (
               </Panel>
             </div>
           </LinkContainer>
-          <i style={{display: editMode? 'block' : 'none'}} className="fa fa-trash-o" aria-hidden="true" id={a.id} onClick={() => trashArticle(a)}></i>
+          <i style={{display: editor.editMode? 'block' : 'none'}} className="fa fa-trash-o" aria-hidden="true" id={a.id} onClick={() => trashArticle(a)}></i>
         </div>) : <p className='nothingness'>{blogState.articles}</p>} 
         <Pager>
           <Pager.Item previous href="#" style={{display: blogState.pageIndex === 0? 'none' : 'block'}} disabled={blogState.pageIndex === 0? true : false} onClick={() => loadPage(blogState.pageIndex - 5)}>&larr; Previous Page</Pager.Item>

@@ -1,10 +1,11 @@
 import { connect } from 'react-redux';
 import EditArticles from '../components/EditArticles';
-import { toEdit } from '../actions/actionCreators';
+import { toEdit, addFirebase } from '../actions/actionCreators';
 
 const mapStateToProps = state => {
 	return {
-		editMode: state.editMode
+		blogState: state.blogState,
+		editor: state.editor
 	}
 }
 
@@ -12,6 +13,9 @@ const mapDispatchToProps = dispatch => {
 	return {
 		changeMode: current => {
 			dispatch(toEdit(current))
+		},
+		addArticle: (index, id, title, content, timestamp, comments, showComments) => {
+			dispatch(addFirebase(index, id, title, content, timestamp, comments, showComments))
 		}
 	}
 }
