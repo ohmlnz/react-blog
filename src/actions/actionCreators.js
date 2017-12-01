@@ -23,11 +23,12 @@ export const selectArticle = (article) => {
 	}
 }
 
-export const receiveArticles = (pageIndex, total, json) => {
+export const receiveArticles = (pageIndex, total, json, lastId) => {
 	return {
 		type: 'RECEIVE_ARTICLES',
 		pageIndex,
 		total,
+		lastId,
 		articles: json,
 		receivedAt: Date.now()
 	}
@@ -37,6 +38,7 @@ export function fetchArticles(pageIndex) {
   return function (dispatch) {
 		const end = pageIndex + 4;
 		let total;
+		let lastId = null;
 
 		articles.once('value', (snapshot) => {	
    		total = snapshot.numChildren(); 
@@ -44,8 +46,11 @@ export function fetchArticles(pageIndex) {
 			snapshot.forEach(function(childSnapshot) {
 				a.push(childSnapshot.val());
 			});
+			if (a.length) {
+				lastId = a[a.length-1].id;	
+			}
 			const arr = a.slice(pageIndex, end)
-			dispatch(receiveArticles(pageIndex, total, arr))
+			dispatch(receiveArticles(pageIndex, total, arr, lastId))
     });
   }
 }
@@ -53,7 +58,7 @@ export function fetchArticles(pageIndex) {
 // Remove article from Firebase
 export function removeFirebase(article) {
 	return function(dispatch) {
-  	const ref = firebase.database().ref(`articles/${article.id}`);
+  	const ref = firebase.database().ref(`articles/${article.initIndex}`);
   	ref.remove()
   	.then(function() {
 			dispatch(removeArticle(article));
@@ -67,9 +72,12 @@ export function removeFirebase(article) {
 
 // Add article to Firebase
 export function addFirebase(index, id, title, content, timestamp, comments, showComments) {
+	const init = index !== -1? index : 0;
+
 	return function(dispatch) {
   	firebase.database().ref('articles/' + index).set({
 	  	id: id,
+	  	initIndex: init,
 	    title: title,
 	    content: content,
 	    timestamp: timestamp,
@@ -77,7 +85,7 @@ export function addFirebase(index, id, title, content, timestamp, comments, show
 	    showComments: showComments
 	  })
   	.then(function() {
-			dispatch(fetchArticles(0));
+			dispatch(fetchArticles(0)); // add redux action
 			console.log('success')
   	})
   	.catch(function(err) {
@@ -86,14 +94,7 @@ export function addFirebase(index, id, title, content, timestamp, comments, show
   }
 }
 
-// // Add an article
-// export function addArticle(articleId) {
-// 	return {
-// 		type: 'ADD_ARTICLE',
-// 		articleId
-// 	}
-// }
-//
+
 // // Remove a comment
 // export function removeComment(commentId) {
 // 	return {

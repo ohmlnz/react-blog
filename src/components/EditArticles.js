@@ -3,7 +3,7 @@ import { Col, Form, FormGroup, FormControl, Button, PageHeader } from 'react-boo
 import { Editor, EditorState } from 'draft-js';
 import { stateToHTML } from 'draft-js-export-html';
 import startsWith from 'lodash/startsWith';
-import orderBy from 'lodash/orderBy';
+// import orderBy from 'lodash/orderBy';
 
 import buttons from '../data/buttons.json';
 import '../css/ArticleForm.css';
@@ -17,6 +17,13 @@ class EditArticles extends Component {
 		toolbar: []
 	}
 
+	changeBody = (editorState) => {
+		this.setState({
+      editorState,
+      toolbar: []
+    })
+	}
+
 	changeTitle = (e) => {
 		this.setState({
       title: e.target.value,
@@ -27,22 +34,21 @@ class EditArticles extends Component {
 	submitArticle = (e) => {
     e.preventDefault()
 
-    // // Ensure that the article isn't empty
-    // if ((!this.state.title.length) || (startsWith(stateToHTML(this.state.editorState.getCurrentContent()), '<p><br></p>'))) {
-    //   return
-    // }
+    // Ensure that the article isn't empty
+    if ((!this.state.title.length) || (startsWith(stateToHTML(this.state.editorState.getCurrentContent()), '<p><br></p>'))) {
+      return
+    }
 
-    const id = this.props.blogState.total+1
+    const id = this.props.blogState.lastId || 0
     const title = this.state.title
-    //const content = stateToHTML(this.state.editorState.getCurrentContent())
-    const content = 'lol'
+    const content = stateToHTML(this.state.editorState.getCurrentContent())
     const timestamp = Date.now()
     const comments = 0
     const showComments = 'none'
-    const article = { "id": id, "title": title, "content": content, "timestamp": timestamp, "comments": comments, "showComments": showComments }
-    const articles = this.props.blogState.articles.concat(article)
+    // const article = { "id": id, "title": title, "content": content, "timestamp": timestamp, "comments": comments, "showComments": showComments }
+    // const articles = this.props.blogState.articles.concat(article)
     // Push changes to DB
-    this.props.addArticle(id-1, id, title, content, timestamp, comments, showComments)
+    this.props.addArticle(id, id+1, title, content, timestamp, comments, showComments)
 
     // Reset local state
     this.setState({
@@ -94,12 +100,12 @@ class EditArticles extends Component {
 				   <FormGroup controlId="formControlsTextarea">
 				   	<Col sm={12}>
 				      <div className='form-control' style={{minHeight:'150px', resize: 'vertical', overflow: 'scroll'}}>
-								{/*<Editor 
-				          //editorState={editor.editorState} 
-				          // onChange={}
+								<Editor 
+				          editorState={this.state.editorState} 
+				          onChange={this.changeBody}
 				          spellCheck={true}
 				          placeholder='Share your thoughts...'
-				        />*/}
+				        />
 				      </div>
 				    </Col>
 				   </FormGroup>

@@ -1,0 +1,13 @@
+.single-article h2 {
+	text-align: center;
+  color: white;
+  font-weight: bold;
+  margin-top: 1em;
+}
+
+.single-article p {
+  width: 70%;
+  margin: auto;
+  margin-top: 2em;
+  color: #9c9c9c;
+}

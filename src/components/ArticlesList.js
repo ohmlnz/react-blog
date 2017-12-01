@@ -13,7 +13,7 @@ const ArticlesList = ({blogState, editor, trashArticle, loadPage}) => (
           <LinkContainer to={`/article/${a.id}`} className="article-container">
             <div key={a.id}>
               <Panel header={a.title}>
-                <span dangerouslySetInnerHTML={{__html: a.content}} />
+                <span dangerouslySetInnerHTML={{__html: a.content.substr(0,500) + '...</br></br><b>Click to read more</b>'}} />
                 <hr/>
                 <span className='timestamp'>Posted <Moment fromNow>{a.timestamp}</Moment>.</span>
                 <span className='comments'>{a.comments? `${a.comments.length > 1? `There are ${a.comments.length} comments.` : `There is ${a.comments.length} comment.`}` : 'There are no comments yet.'}</span>
@@ -24,7 +24,7 @@ const ArticlesList = ({blogState, editor, trashArticle, loadPage}) => (
         </div>) : <p className='nothingness'>{blogState.articles}</p>} 
         <Pager>
           <Pager.Item previous href="#" style={{display: blogState.pageIndex === 0? 'none' : 'block'}} disabled={blogState.pageIndex === 0? true : false} onClick={() => loadPage(blogState.pageIndex - 5)}>&larr; Previous Page</Pager.Item>
-          <Pager.Item next href="#" disabled={blogState.pageIndex+5 > blogState.total? true : false} onClick={() => loadPage(blogState.pageIndex + 5)}>Next Page &rarr;</Pager.Item>
+          <Pager.Item next href="#" disabled={blogState.pageIndex+5 >= blogState.total? true : false} onClick={() => loadPage(blogState.pageIndex + 5)}>Next Page &rarr;</Pager.Item>
         </Pager>
   </div>
 );

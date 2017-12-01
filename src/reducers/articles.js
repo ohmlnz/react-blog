@@ -10,12 +10,12 @@ const articlesReducer = (state = [], action) => {
 				]
 			}
 		case 'RECEIVE_ARTICLES':
+			const nothing = action.total !== 0? `There aren't any more articles :'(` : `There aren't any articles :'(`
 			return {
 				...state,
-				articles: !action.articles.length?
-				`There aren't any more articles :'(`:
-				action.articles,
+				articles: !action.articles.length? `${nothing}` : action.articles,
 				total: action.total,
+				lastId: action.lastId,
 				lastUpdated: action.receivedAt,
 				pageIndex: action.pageIndex
 			}
