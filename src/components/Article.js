@@ -8,7 +8,9 @@ const Article = ({blogState, match}) => (
 	).map(a => 
 		<div className='single-article' key={a.id}>
 			<h2>{a.title}</h2>
-			<span dangerouslySetInnerHTML={{__html: a.content}} />
+			<div className='single-body'>
+				<span dangerouslySetInnerHTML={{__html: a.content}} />
+			</div>
 		</div>
 	)}
  </div>

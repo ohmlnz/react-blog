@@ -4,6 +4,7 @@ import { Editor, EditorState } from 'draft-js';
 import { stateToHTML } from 'draft-js-export-html';
 import startsWith from 'lodash/startsWith';
 // import orderBy from 'lodash/orderBy';
+import { toInline, toBlock } from '../helpers/toolbar';
 
 import buttons from '../data/buttons.json';
 import '../css/ArticleForm.css';
@@ -22,6 +23,32 @@ class EditArticles extends Component {
       editorState,
       toolbar: []
     })
+
+    const styles = editorState.getCurrentInlineStyle()._map._list._tail
+    const startKey = editorState.getSelection().getStartKey();
+    const selectedBlockType = editorState
+    .getCurrentContent()
+    .getBlockForKey(startKey)
+    .getType()
+  
+
+    if ((selectedBlockType !== 'unstyled') && styles) {
+      const newInline = styles.array.map(a => a !== undefined? [a[0], a[1]].join(',') : null) 
+      const newBlock = [selectedBlockType + ',true']
+      const total = newBlock.concat(newInline)   
+      this.setState({ toolbar: total })  
+      return
+    }
+
+    if (styles) {
+      const newInline = styles.array.map(a => a !== undefined? [a[0], a[1]].join(',') : null) 
+      this.setState({ toolbar: newInline })  
+    }
+
+    if (selectedBlockType !== 'unstyled') {
+      const newBlock = [selectedBlockType + ',true']
+      this.setState({ toolbar: newBlock })
+    }
 	}
 
 	changeTitle = (e) => {
@@ -75,8 +102,8 @@ class EditArticles extends Component {
 				      <Button 
 				        key={index}
 				        bsClass='btn-custom' 
-				        /*active={this.state.toolbar.indexOf(`${b.id},true`) !== -1? true: false}*/
-				        /*onClick={() => this.onChange(toBlock(this.state.editorState, b.id))}*/>{b.label}
+				        active={this.state.toolbar.indexOf(`${b.id},true`) !== -1? true: false}
+				        onClick={() => this.changeBody(toBlock(this.state.editorState, b.id))}>{b.label}
 				      </Button> 
 				    )}
 
@@ -84,8 +111,8 @@ class EditArticles extends Component {
 				      <Button 
 				        key={index}
 				        bsClass='btn-custom' 
-				        /*active={this.state.toolbar.indexOf(`${b.id},true`) !== -1? true: false}*/ 
-				        /*onClick={() => this.onChange(toInline(this.state.editorState, b.id))}*/>{b.label}
+				        active={this.state.toolbar.indexOf(`${b.id},true`) !== -1? true: false}
+				        onClick={() => this.changeBody(toInline(this.state.editorState, b.id))}>{b.label}
 				      </Button> 
 				    )}
 				  </div>
