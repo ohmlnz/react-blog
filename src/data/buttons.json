@@ -16,5 +16,9 @@
 		{"id": "unordered-list-item", "label": "UL"},
 		{"id": "ordered-list-item", "label": "OL"},
 		{"id": "code-block", "label": "Code Block"}
+	],
+	"media": [
+		{"id": "image", "class": "glyphicon glyphicon-picture", "label": "Image"},
+		{"id": "video", "class": "glyphicon glyphicon-facetime-video", "label": "Video"}
 	]
 }

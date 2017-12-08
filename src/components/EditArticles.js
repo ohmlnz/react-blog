@@ -1,15 +1,21 @@
 import React, { Component } from 'react';
 import { Col, Form, FormGroup, FormControl, Button, PageHeader } from 'react-bootstrap';
-import { Editor, EditorState } from 'draft-js';
+import { EditorState } from 'draft-js';
+import  Editor from 'draft-js-plugins-editor';
 import { stateToHTML } from 'draft-js-export-html';
-import startsWith from 'lodash/startsWith';
+import createImagePlugin from 'draft-js-image-plugin';
+
+//import startsWith from 'lodash/startsWith';
+import isEqual from 'lodash/isEqual';
 // import orderBy from 'lodash/orderBy';
-import { toInline, toBlock } from '../helpers/toolbar';
+import { toInline, toBlock, toMedia } from '../helpers/toolbar';
 
 import buttons from '../data/buttons.json';
 import '../css/ArticleForm.css';
 import '../css/EditArticles.css';
 
+const imagePlugin = createImagePlugin();
+const plugins = [imagePlugin]
 
 class EditArticles extends Component {
 	state = {
@@ -61,8 +67,8 @@ class EditArticles extends Component {
 	submitArticle = (e) => {
     e.preventDefault()
 
-    // Ensure that the article isn't empty
-    if ((!this.state.title.length) || (startsWith(stateToHTML(this.state.editorState.getCurrentContent()), '<p><br></p>'))) {
+    // Ensure that the article isn't empty (has either text or media)
+    if ((!this.state.title.length) || (isEqual(stateToHTML(this.state.editorState.getCurrentContent()), '<p><br></p>'))) {
       return
     }
 
@@ -115,6 +121,14 @@ class EditArticles extends Component {
 				        onClick={() => this.changeBody(toInline(this.state.editorState, b.id))}>{b.label}
 				      </Button> 
 				    )}
+
+				    {buttons.media.map((b, index) =>
+				    	<Button 
+				    		key={index}
+				    		bsClass={`btn-class ${b.class}`} 
+				    		onClick={() => this.changeBody(toMedia(prompt('Add url'), this.state.editorState, imagePlugin))}>
+				    	</Button>
+				    )}
 				  </div>
 
 				  <Form horizontal onSubmit={this.submitArticle}>
@@ -129,6 +143,7 @@ class EditArticles extends Component {
 				      <div className='form-control' style={{minHeight:'150px', resize: 'vertical', overflow: 'scroll'}}>
 								<Editor 
 				          editorState={this.state.editorState} 
+				          plugins={plugins}
 				          onChange={this.changeBody}
 				          spellCheck={true}
 				          placeholder='Share your thoughts...'

@@ -23,3 +23,14 @@
   margin: auto;
   margin-top: 1em;
 }
+
+.glyphicon {
+  border: none;
+  background-color: transparent;
+  color: #777;
+  padding: 6px 9px;
+}
+
+.glyphicon:hover {
+  opacity: .7;
+}

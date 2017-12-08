@@ -9,7 +9,7 @@ const Article = ({blogState, match}) => (
 		<div className='single-article' key={a.id}>
 			<h2>{a.title}</h2>
 			<div className='single-body'>
-				<span dangerouslySetInnerHTML={{__html: a.content}} />
+				<span dangerouslySetInnerHTML={{__html: a.content + '<hr>'}}/>
 			</div>
 		</div>
 	)}

@@ -12,3 +12,8 @@
   color: #9c9c9c;
   text-align: justify;
 }
+
+.single-body hr {
+	opacity: .4;
+	width: 80%;
+}
