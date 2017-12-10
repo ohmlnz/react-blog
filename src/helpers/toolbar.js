@@ -8,6 +8,10 @@ export const toBlock = (state, style) => {
 	return RichUtils.toggleBlockType(state, style)
 }
 
-export const toMedia = (url, state, imagePlugin) => {
-	return imagePlugin.addImage(state, url)
+export const toMedia = (url, state, plugin, label) => {
+	if (label === 'image') {
+		return plugin.addImage(state, url)
+	} else {
+		return plugin.addVideo(state, {src: url})
+	}
 }

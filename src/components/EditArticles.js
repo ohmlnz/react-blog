@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import { Col, Form, FormGroup, FormControl, Button, PageHeader } from 'react-bootstrap';
 import { EditorState } from 'draft-js';
-import  Editor from 'draft-js-plugins-editor';
+import  Editor, { composeDecorators } from 'draft-js-plugins-editor';
 import { stateToHTML } from 'draft-js-export-html';
 import createImagePlugin from 'draft-js-image-plugin';
+import createVideoPlugin from 'draft-js-video-plugin';
+import createFocusPlugin from 'draft-js-focus-plugin';
+import createResizeablePlugin from 'draft-js-resizeable-plugin';
+import createBlockDndPlugin from 'draft-js-drag-n-drop-plugin';
 
 //import startsWith from 'lodash/startsWith';
 import isEqual from 'lodash/isEqual';
@@ -14,8 +18,26 @@ import buttons from '../data/buttons.json';
 import '../css/ArticleForm.css';
 import '../css/EditArticles.css';
 
-const imagePlugin = createImagePlugin();
-const plugins = [imagePlugin]
+const focusPlugin = createFocusPlugin();
+const resizeablePlugin = createResizeablePlugin();
+const blockDndPlugin = createBlockDndPlugin();
+
+const decorator = composeDecorators(
+  resizeablePlugin.decorator,
+  focusPlugin.decorator,
+  blockDndPlugin.decorator
+);
+
+const imagePlugin = createImagePlugin({ decorator });
+const videoPlugin = createVideoPlugin();
+
+const plugins = [
+  blockDndPlugin,
+  focusPlugin,
+  resizeablePlugin,
+  imagePlugin,
+  videoPlugin
+];
 
 class EditArticles extends Component {
 	state = {
@@ -25,6 +47,7 @@ class EditArticles extends Component {
 	}
 
 	changeBody = (editorState) => {
+
 		this.setState({
       editorState,
       toolbar: []
@@ -126,7 +149,7 @@ class EditArticles extends Component {
 				    	<Button 
 				    		key={index}
 				    		bsClass={`btn-class ${b.class}`} 
-				    		onClick={() => this.changeBody(toMedia(prompt('Add url'), this.state.editorState, imagePlugin))}>
+				    		onClick={() => this.changeBody(toMedia(prompt('Add url'), this.state.editorState, b.label === 'image'? imagePlugin : videoPlugin, b.label))}>
 				    	</Button>
 				    )}
 				  </div>
@@ -142,7 +165,7 @@ class EditArticles extends Component {
 				   	<Col sm={12}>
 				      <div className='form-control' style={{minHeight:'150px', resize: 'vertical', overflow: 'scroll'}}>
 								<Editor 
-				          editorState={this.state.editorState} 
+				          editorState={this.state.editorState}
 				          plugins={plugins}
 				          onChange={this.changeBody}
 				          spellCheck={true}

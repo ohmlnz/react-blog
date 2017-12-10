@@ -18,7 +18,7 @@
 		{"id": "code-block", "label": "Code Block"}
 	],
 	"media": [
-		{"id": "image", "class": "glyphicon glyphicon-picture", "label": "Image"},
-		{"id": "video", "class": "glyphicon glyphicon-facetime-video", "label": "Video"}
+		{"id": "image", "label": "image", "class": "glyphicon glyphicon-picture" },
+		{"id": "video", "label": "video", "class": "glyphicon glyphicon-facetime-video" }
 	]
 }
