@@ -117,11 +117,11 @@ class EditArticles extends Component {
 	render() {
 		return (
 			<div>
-			  <div className='edit-mode'>
+			 {/* <div className='edit-mode'>
 			    <span onClick={() => this.props.changeMode(this.props.editor.editMode)}>Edit Mode</span>
-			  </div>
+			  </div> */}
 
-			  <div className='editor-wrapper' style={{display: this.props.editor.editMode? 'block' : 'none'}}>
+			  <div className='editor-wrapper' style={{display: this.props.blogState.editMode? 'block' : 'none'}}>
 				  <div id='add-article'>
 				    <PageHeader>
 				    	<small>Add a new entry</small>

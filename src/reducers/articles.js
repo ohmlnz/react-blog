@@ -1,5 +1,23 @@
 const articlesReducer = (state = [], action) => {
 	switch (action.type) {
+		case 'LOGIN_SUCCESS': 
+			return {
+				...state,
+				user: action.user.displayName,
+				userAva: action.user.photoURL,
+				userProfile: action.result.additionalUserInfo.profile.html_url,
+				addArticle: 'block',
+				editMode: true
+			}
+		case 'LOGOUT_SUCCESS':
+			return {
+				...state,
+				user: '',
+				userAva: '',
+				userProfile: '',
+				addArticle: '',
+				editMode: false
+			}
 		case 'REMOVE_ARTICLE':
 			const i = state.articles.indexOf(action.article);
  			return {

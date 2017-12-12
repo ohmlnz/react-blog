@@ -21,10 +21,14 @@ const loggerMiddleware = createLogger();
 	
 const defaultState = {
 	blogState: {
-		articles: []
+		articles: [],
+		user: '',
+		userAva: '',
+		userProfile: '',
+		addArticle: '',
+		editMode: false
 	},
 	editor: {
-		editMode: false,
 		editorState: EditorState.createEmpty(),
 		toolbar: []
 	}

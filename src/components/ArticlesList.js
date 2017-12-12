@@ -20,7 +20,7 @@ const ArticlesList = ({blogState, editor, trashArticle, loadPage}) => (
               </Panel>
             </div>
           </LinkContainer>
-          <i style={{display: editor.editMode? 'block' : 'none'}} className="fa fa-trash-o" aria-hidden="true" id={a.id} onClick={() => trashArticle(a)}></i>
+          <i style={{display: blogState.editMode? 'block' : 'none'}} className="fa fa-trash-o" aria-hidden="true" id={a.id} onClick={() => trashArticle(a)}></i>
         </div>) : <p className='nothingness'>{blogState.articles}</p>} 
         <Pager>
           <Pager.Item previous href="#" style={{display: blogState.pageIndex === 0? 'none' : 'block'}} disabled={blogState.pageIndex === 0? true : false} onClick={() => loadPage(blogState.pageIndex - 5)}>&larr; Previous Page</Pager.Item>

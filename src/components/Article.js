@@ -1,4 +1,5 @@
 import React from 'react';
+import { Pager } from 'react-bootstrap';
 import '../css/Article.css';
 
 const Article = ({blogState, match}) => (
@@ -13,6 +14,9 @@ const Article = ({blogState, match}) => (
 			</div>
 		</div>
 	)}
+	<Pager className='article-previous'>
+ 		<Pager.Item previous href='/'>&larr; Previous</Pager.Item>
+	</Pager>
  </div>
 )
 

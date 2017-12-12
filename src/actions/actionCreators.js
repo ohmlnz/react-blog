@@ -1,6 +1,20 @@
 // import fetch from 'isomorphic-fetch';
 import firebase from 'firebase'
-import { articles } from '../helpers/firebase.js';
+import { articles, provider } from '../helpers/firebase.js';
+
+export const loginSuccessful = (result, user) => {
+	return {
+		type: 'LOGIN_SUCCESS',
+		result,
+		user
+	}
+}
+
+export const logoutSuccessful = () => {
+	return {
+		type: 'LOGOUT_SUCCESS'
+	}
+}
 
 export const toEdit = (current) => {
 	return {
@@ -94,6 +108,30 @@ export function addFirebase(index, id, title, content, timestamp, comments, show
   }
 }
 
+// Login 
+export function loginFirebase() {
+	return function(dispatch) {
+		provider.addScope('user:email')
+    firebase.auth().signInWithPopup(provider).then((result) => {
+      const user = result.user; 
+      dispatch(loginSuccessful(result, user))
+    }).catch(function(error) {
+      const errorMessage = error.message;
+      console.log(errorMessage)
+    })
+	}
+}
+
+// Logout 
+export function logoutFirebase() {
+	return function(dispatch) {
+		firebase.auth().signOut().then(() => {
+		dispatch(logoutSuccessful())
+	  }).catch(function(error) {
+	    console.log(error)
+	  });
+	}
+}
 
 // // Remove a comment
 // export function removeComment(commentId) {
@@ -105,7 +143,7 @@ export function addFirebase(index, id, title, content, timestamp, comments, show
 // // Add a comment
 // export function addComment(commentId) {
 // 	return {
-// 		type: 'REMOVE_ARTICLE',
+// 		type: 'ADD_COMMENT',
 // 		commentId
 // 	}
 // }

@@ -21,3 +21,21 @@
 figure {
   text-align: center;
 }
+
+.article-previous {
+  width: 70%;
+  margin: auto;
+  margin-bottom: 1.5em;
+}
+
+.article-previous li a {
+  border: none;
+  background-color: transparent;
+  color: white;
+}
+
+.article-previous li a:hover {
+  border: none;
+  background-color: transparent;
+  opacity: .7;
+}
