@@ -1,21 +1,19 @@
 import { connect } from 'react-redux';
 import Article from '../components/Article';
-// import { removeFirebase, fetchArticles } from '../actions/actionCreators';
+import { updateFirebase } from '../actions/actionCreators';
 
 const mapStateToProps = state => {
 	return {
-		blogState: state.blogState
+		blogState: state.blogState,
+		editor: state.editor
 	}
 }
 
 const mapDispatchToProps = dispatch => {
 	return {
-		// trashArticle: article => {
-		// 	dispatch(removeFirebase(article))
-		// },
-		// loadPage: index => {
-		// 	dispatch(fetchArticles(index))
-		// }
+		updateArticle: (index, content, timestamp) => {
+			dispatch(updateFirebase(index, content, timestamp))
+		}
 	}
 }
 

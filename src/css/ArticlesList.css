@@ -1,3 +1,7 @@
+.animation-wrapper {
+  margin-top: 5em;  
+}
+
 .article-wrapper {
   position: relative;
 }
@@ -19,7 +23,7 @@
 	position: relative;
 }
 
-.fa-trash-o {
+.fa-trash-o, .fa-pencil {
   position: absolute;
   right: 1.3em;
   top: .7em;
@@ -27,7 +31,11 @@
   color: rgba(255, 255, 255, 0.64);
 }
 
-.fa-trash-o:hover {
+.fa-pencil {
+  right: 3.3em;  
+}
+
+.fa-trash-o:hover, .fa-pencil:hover {
 	cursor: pointer;
 	opacity: .7;
 }

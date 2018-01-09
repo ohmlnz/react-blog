@@ -95,16 +95,16 @@ class EditArticles extends Component {
       return
     }
 
-    const id = this.props.blogState.lastId || 0
-    const title = this.state.title
-    const content = stateToHTML(this.state.editorState.getCurrentContent())
-    const timestamp = Date.now()
-    const comments = 0
-    const showComments = 'none'
-    // const article = { "id": id, "title": title, "content": content, "timestamp": timestamp, "comments": comments, "showComments": showComments }
-    // const articles = this.props.blogState.articles.concat(article)
+    const id = this.props.blogState.lastId || 0;
+    const title = this.state.title;
+    const content = stateToHTML(this.state.editorState.getCurrentContent());
+    const timestamp = Date.now();
+    const lastUpdated = Date.now();
+    const comments = 0;
+    const showComments = 'none';
+
     // Push changes to DB
-    this.props.addArticle(id, id+1, title, content, timestamp, comments, showComments)
+    this.props.addArticle(id, id+1, title, content, timestamp, lastUpdated, comments, showComments)
 
     // Reset local state
     this.setState({
@@ -117,10 +117,6 @@ class EditArticles extends Component {
 	render() {
 		return (
 			<div>
-			 {/* <div className='edit-mode'>
-			    <span onClick={() => this.props.changeMode(this.props.editor.editMode)}>Edit Mode</span>
-			  </div> */}
-
 			  <div className='editor-wrapper' style={{display: this.props.blogState.editMode? 'block' : 'none'}}>
 				  <div id='add-article'>
 				    <PageHeader>

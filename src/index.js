@@ -26,7 +26,8 @@ const defaultState = {
 		userAva: '',
 		userProfile: '',
 		addArticle: '',
-		editMode: false
+		editMode: false,
+		animation: false
 	},
 	editor: {
 		editorState: EditorState.createEmpty(),

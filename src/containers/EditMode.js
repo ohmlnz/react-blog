@@ -14,8 +14,8 @@ const mapDispatchToProps = dispatch => {
 		changeMode: current => {
 			dispatch(toEdit(current))
 		},
-		addArticle: (index, id, title, content, timestamp, comments, showComments) => {
-			dispatch(addFirebase(index, id, title, content, timestamp, comments, showComments))
+		addArticle: (index, id, title, content, timestamp, lastUpdated, comments, showComments) => {
+			dispatch(addFirebase(index, id, title, content, timestamp, lastUpdated, comments, showComments))
 		}
 	}
 }

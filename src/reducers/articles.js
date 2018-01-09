@@ -27,6 +27,15 @@ const articlesReducer = (state = [], action) => {
 					...state.articles.slice(i + 1, state.length)
 				]
 			}
+		case 'EDIT_ARTICLE':
+			return {
+				...state,
+				content: {
+					body: action.article.content,
+					id: action.article.id
+				}
+
+			}
 		case 'RECEIVE_ARTICLES':
 			const nothing = action.total !== 0? `There aren't any more articles :'(` : `There aren't any articles :'(`
 			return {
@@ -35,7 +44,8 @@ const articlesReducer = (state = [], action) => {
 				total: action.total,
 				lastId: action.lastId,
 				lastUpdated: action.receivedAt,
-				pageIndex: action.pageIndex
+				pageIndex: action.pageIndex,
+				animation: true
 			}
 		default:
 			return state;

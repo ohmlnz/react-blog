@@ -23,6 +23,13 @@ export const toEdit = (current) => {
 	}
 }
 
+export const editContent = (article) => {
+	return {
+		type: 'EDIT_ARTICLE',
+		article
+	}
+}
+
 export const removeArticle = (article) => {
 	return {
 		type: 'REMOVE_ARTICLE',
@@ -37,19 +44,20 @@ export const selectArticle = (article) => {
 	}
 }
 
-export const receiveArticles = (pageIndex, total, json, lastId) => {
+export const receiveArticles = (pageIndex, total, arr, lastId) => {
 	return {
 		type: 'RECEIVE_ARTICLES',
 		pageIndex,
 		total,
 		lastId,
-		articles: json,
+		articles: arr,
 		receivedAt: Date.now()
 	}
 }
 
 export function fetchArticles(pageIndex) {
   return function (dispatch) {
+  	// fix this crap
 		const end = pageIndex + 4;
 		let total;
 		let lastId = null;
@@ -85,7 +93,7 @@ export function removeFirebase(article) {
 }
 
 // Add article to Firebase
-export function addFirebase(index, id, title, content, timestamp, comments, showComments) {
+export function addFirebase(index, id, title, content, timestamp, lastUpdated, comments, showComments) {
 	const init = index !== -1? index : 0;
 
 	return function(dispatch) {
@@ -95,17 +103,34 @@ export function addFirebase(index, id, title, content, timestamp, comments, show
 	    title: title,
 	    content: content,
 	    timestamp: timestamp,
+	    lastUpdated: lastUpdated,
 	    comments: comments,
 	    showComments: showComments
 	  })
   	.then(function() {
-			dispatch(fetchArticles(0)); // add redux action
+			dispatch(fetchArticles(0));
 			console.log('success')
   	})
   	.catch(function(err) {
   		console.log(err);
   	})
   }
+}
+
+// Update article to Firebase
+export function updateFirebase(index, content, timestamp) {
+	return function(dispatch) {
+		firebase.database().ref('articles/' + index).update({
+			content: content,
+			lastUpdated: timestamp
+		})
+		.then(function() {
+			console.log('success')
+  	})
+  	.catch(function(err) {
+  		console.log(err);
+  	})
+	}
 }
 
 // Login 
@@ -133,13 +158,7 @@ export function logoutFirebase() {
 	}
 }
 
-// // Remove a comment
-// export function removeComment(commentId) {
-// 	return {
-// 		type: 'REMOVE_COMMENT',
-// 		commentId
-// 	}
-// }
+
 // // Add a comment
 // export function addComment(commentId) {
 // 	return {
