@@ -55,6 +55,15 @@ export const receiveArticles = (pageIndex, total, arr, lastId) => {
 	}
 }
 
+export const saveEdits = (index, content, timestamp) => {
+	return {
+		type: 'SAVE_EDITS',
+		index,
+		content,
+		timestamp
+	}
+}
+
 export function fetchArticles(pageIndex) {
   return function (dispatch) {
   	// fix this crap
@@ -62,14 +71,14 @@ export function fetchArticles(pageIndex) {
 		let total;
 		let lastId = null;
 
-		articles.once('value', (snapshot) => {	
-   		total = snapshot.numChildren(); 
+		articles.once('value', (snapshot) => {
+   		total = snapshot.numChildren();
 			const a = [];
 			snapshot.forEach(function(childSnapshot) {
 				a.push(childSnapshot.val());
 			});
 			if (a.length) {
-				lastId = a[a.length-1].id;	
+				lastId = a[a.length-1].id;
 			}
 			const arr = a.slice(pageIndex, end)
 			dispatch(receiveArticles(pageIndex, total, arr, lastId))
@@ -93,7 +102,7 @@ export function removeFirebase(article) {
 }
 
 // Add article to Firebase
-export function addFirebase(index, id, title, content, timestamp, lastUpdated, comments, showComments) {
+export function addFirebase(index, id, title, content, timestamp, comments, showComments) {
 	const init = index !== -1? index : 0;
 
 	return function(dispatch) {
@@ -103,7 +112,6 @@ export function addFirebase(index, id, title, content, timestamp, lastUpdated, c
 	    title: title,
 	    content: content,
 	    timestamp: timestamp,
-	    lastUpdated: lastUpdated,
 	    comments: comments,
 	    showComments: showComments
 	  })
@@ -122,9 +130,10 @@ export function updateFirebase(index, content, timestamp) {
 	return function(dispatch) {
 		firebase.database().ref('articles/' + index).update({
 			content: content,
-			lastUpdated: timestamp
+			lastEdit: timestamp
 		})
 		.then(function() {
+			dispatch(saveEdits(index, content, timestamp))
 			console.log('success')
   	})
   	.catch(function(err) {
@@ -133,12 +142,12 @@ export function updateFirebase(index, content, timestamp) {
 	}
 }
 
-// Login 
+// Login
 export function loginFirebase() {
 	return function(dispatch) {
 		provider.addScope('user:email')
     firebase.auth().signInWithPopup(provider).then((result) => {
-      const user = result.user; 
+      const user = result.user;
       dispatch(loginSuccessful(result, user))
     }).catch(function(error) {
       const errorMessage = error.message;
@@ -147,7 +156,7 @@ export function loginFirebase() {
 	}
 }
 
-// Logout 
+// Logout
 export function logoutFirebase() {
 	return function(dispatch) {
 		firebase.auth().signOut().then(() => {

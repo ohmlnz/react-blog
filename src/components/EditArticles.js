@@ -59,19 +59,19 @@ class EditArticles extends Component {
     .getCurrentContent()
     .getBlockForKey(startKey)
     .getType()
-  
+
 
     if ((selectedBlockType !== 'unstyled') && styles) {
-      const newInline = styles.array.map(a => a !== undefined? [a[0], a[1]].join(',') : null) 
+      const newInline = styles.array.map(a => a !== undefined? [a[0], a[1]].join(',') : null)
       const newBlock = [selectedBlockType + ',true']
-      const total = newBlock.concat(newInline)   
-      this.setState({ toolbar: total })  
+      const total = newBlock.concat(newInline)
+      this.setState({ toolbar: total })
       return
     }
 
     if (styles) {
-      const newInline = styles.array.map(a => a !== undefined? [a[0], a[1]].join(',') : null) 
-      this.setState({ toolbar: newInline })  
+      const newInline = styles.array.map(a => a !== undefined? [a[0], a[1]].join(',') : null)
+      this.setState({ toolbar: newInline })
     }
 
     if (selectedBlockType !== 'unstyled') {
@@ -99,12 +99,11 @@ class EditArticles extends Component {
     const title = this.state.title;
     const content = stateToHTML(this.state.editorState.getCurrentContent());
     const timestamp = Date.now();
-    const lastUpdated = Date.now();
     const comments = 0;
     const showComments = 'none';
 
     // Push changes to DB
-    this.props.addArticle(id, id+1, title, content, timestamp, lastUpdated, comments, showComments)
+    this.props.addArticle(id, id+1, title, content, timestamp, comments, showComments)
 
     // Reset local state
     this.setState({
@@ -124,27 +123,27 @@ class EditArticles extends Component {
 				    </PageHeader>
 
 				    {buttons.block.map((b, index) =>
-				      <Button 
+				      <Button
 				        key={index}
-				        bsClass='btn-custom' 
+				        bsClass='btn-custom'
 				        active={this.state.toolbar.indexOf(`${b.id},true`) !== -1? true: false}
 				        onClick={() => this.changeBody(toBlock(this.state.editorState, b.id))}>{b.label}
-				      </Button> 
+				      </Button>
 				    )}
 
 				    {buttons.inline.map((b, index) =>
-				      <Button 
+				      <Button
 				        key={index}
-				        bsClass='btn-custom' 
+				        bsClass='btn-custom'
 				        active={this.state.toolbar.indexOf(`${b.id},true`) !== -1? true: false}
 				        onClick={() => this.changeBody(toInline(this.state.editorState, b.id))}>{b.label}
-				      </Button> 
+				      </Button>
 				    )}
 
 				    {buttons.media.map((b, index) =>
-				    	<Button 
+				    	<Button
 				    		key={index}
-				    		bsClass={`btn-class ${b.class}`} 
+				    		bsClass={`btn-class ${b.class}`}
 				    		onClick={() => this.changeBody(toMedia(prompt('Add url'), this.state.editorState, b.label === 'image'? imagePlugin : videoPlugin, b.label))}>
 				    	</Button>
 				    )}
@@ -160,7 +159,7 @@ class EditArticles extends Component {
 				   <FormGroup controlId="formControlsTextarea">
 				   	<Col sm={12}>
 				      <div className='form-control' style={{minHeight:'150px', resize: 'vertical', overflow: 'scroll'}}>
-								<Editor 
+								<Editor
 				          editorState={this.state.editorState}
 				          plugins={plugins}
 				          onChange={this.changeBody}

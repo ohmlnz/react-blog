@@ -1,6 +1,6 @@
 const articlesReducer = (state = [], action) => {
 	switch (action.type) {
-		case 'LOGIN_SUCCESS': 
+		case 'LOGIN_SUCCESS':
 			return {
 				...state,
 				user: action.user.displayName,
@@ -32,9 +32,17 @@ const articlesReducer = (state = [], action) => {
 				...state,
 				content: {
 					body: action.article.content,
-					id: action.article.id
+					id: action.article.id,
+					lastEdit: ''
 				}
-
+			}
+		case 'SAVE_EDITS':
+			return {
+				...state,
+				content: {
+					...state,
+					lastEdit: action.timestamp
+				}
 			}
 		case 'RECEIVE_ARTICLES':
 			const nothing = action.total !== 0? `There aren't any more articles :'(` : `There aren't any articles :'(`
@@ -43,7 +51,7 @@ const articlesReducer = (state = [], action) => {
 				articles: !action.articles.length? `${nothing}` : action.articles,
 				total: action.total,
 				lastId: action.lastId,
-				lastUpdated: action.receivedAt,
+				receivedAt: action.receivedAt,
 				pageIndex: action.pageIndex,
 				animation: true
 			}
