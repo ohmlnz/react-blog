@@ -1,3 +1,7 @@
+.single-article {
+	font-family: 'Signika', sans-serif;
+}
+
 .single-article > h2 {
 	text-align: center;
   color: white;
@@ -15,6 +19,7 @@
   margin-top: 2em;
   color: #9c9c9c;
   text-align: justify;
+	font-weight: 300;
 }
 
 .single-body hr {

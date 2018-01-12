@@ -134,7 +134,6 @@ export function updateFirebase(index, content, timestamp) {
 		})
 		.then(function() {
 			dispatch(saveEdits(index, content, timestamp))
-			console.log('success')
   	})
   	.catch(function(err) {
   		console.log(err);

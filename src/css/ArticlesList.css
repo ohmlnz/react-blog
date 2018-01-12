@@ -1,9 +1,11 @@
 .animation-wrapper {
-  margin-top: 5em;  
+  margin-top: 5em;
 }
 
 .article-wrapper {
   position: relative;
+  font-family: 'Signika', sans-serif;
+  font-weight: 300;
 }
 
 .panel-default {
@@ -32,7 +34,7 @@
 }
 
 .fa-pencil {
-  right: 3.3em;  
+  right: 3.3em;
 }
 
 .fa-trash-o:hover, .fa-pencil:hover {
@@ -79,6 +81,8 @@
   color: #fff;
   margin-top: -.5em;
   margin-bottom: -.5em;
+  font-family: 'Signika', sans-serif;
+  font-size: 2.5em;
 }
 
 .btn-custom {
@@ -124,4 +128,5 @@
 
 .pager {
   margin-top: 3em;
+  font-family: 'Signika', sans-serif;
 }
