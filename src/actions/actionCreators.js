@@ -67,7 +67,7 @@ export const saveEdits = (index, content, timestamp) => {
 export function fetchArticles(pageIndex) {
   return function (dispatch) {
   	// fix this crap
-		const end = pageIndex + 4;
+		const end = pageIndex + 5;
 		let total;
 		let lastId = null;
 
