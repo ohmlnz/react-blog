@@ -1,3 +1,7 @@
+.page-header h1 {
+  font-size: 2em !important;
+}
+
 .animation-wrapper {
   margin-top: 5em;
 }
@@ -14,6 +18,7 @@
 }
 
 .panel-default > .panel-heading {
+  font-weight: 400;
 	font-size: 1.5em;
 	text-align: center;
 	color: #fff;

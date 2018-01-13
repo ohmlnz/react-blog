@@ -7,7 +7,7 @@ import { stateToHTML } from 'draft-js-export-html';
 import isEqual from 'lodash/isEqual';
 import Moment from 'react-moment';
 
-import { CommentSection } from './CommentSection';
+//import { CommentSection } from './CommentSection';
 import '../css/Article.css';
 
 class Article extends Component {
