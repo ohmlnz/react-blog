@@ -56,9 +56,9 @@ const BlogRouter = () => (
 	  <Router>
 	  	<Switch>
 		    <Route exact path="/" component={App} />
-		    <Route path="/article/:articleId" component={Single} />
-				<Route path="/admin" component={LoginBlog} />
-				<Route path="*" component={NotFound}/>
+		    <Route exact path="/article/:articleId" component={Single} />
+				<Route exact path="/admin" component={LoginBlog} />
+				<Route exact path="*" component={NotFound}/>
 	  	</Switch>
 	  </Router>
 	</Provider>
