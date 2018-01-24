@@ -1,12 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './index.css';
 import { EditorState } from 'draft-js';
 
 // Import components
 import App from './App';
 import Single from './containers/Single';
+import LoginBlog from './containers/LoginBlog';
+import NotFound from './components/NotFound';
 
 // Redux stuff
 import thunkMiddleware from 'redux-thunk'
@@ -18,7 +20,7 @@ import { createStore, applyMiddleware, compose } from 'redux'
 import { rootReducer } from './reducers/index';
 
 const loggerMiddleware = createLogger();
-	
+
 const defaultState = {
 	blogState: {
 		articles: [],
@@ -42,7 +44,7 @@ let store = createStore(
 	compose(
 		middleware,
 		//window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-	) 
+	)
 );
 
 store
@@ -52,10 +54,12 @@ console.log(store.getState())
 const BlogRouter = () => (
   <Provider store={store}>
 	  <Router>
-	  	<div>	
+	  	<Switch>
 		    <Route exact path="/" component={App} />
 		    <Route path="/article/:articleId" component={Single} />
-	  	</div>
+				<Route path="/admin" component={LoginBlog} />
+				<Route path="*" component={NotFound}/>
+	  	</Switch>
 	  </Router>
 	</Provider>
 );

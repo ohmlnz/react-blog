@@ -145,13 +145,19 @@ export function updateFirebase(index, content, timestamp) {
 export function loginFirebase() {
 	return function(dispatch) {
 		provider.addScope('user:email')
-    firebase.auth().signInWithPopup(provider).then((result) => {
-      const user = result.user;
-      dispatch(loginSuccessful(result, user))
-    }).catch(function(error) {
-      const errorMessage = error.message;
-      console.log(errorMessage)
-    })
+		firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
+		.then(function() {
+			firebase.auth().signInWithPopup(provider).then((result) => {
+	      const user = result.user;
+	      dispatch(loginSuccessful(result, user))
+				dispatch(function() {
+					window.location = "/";
+				});
+	    }).catch(function(error) {
+	      const errorMessage = error.message;
+	      console.log(errorMessage)
+	    })
+		})
 	}
 }
 
