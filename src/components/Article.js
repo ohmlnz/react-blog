@@ -14,13 +14,16 @@ class Article extends Component {
 
 	state = {
 		editorState: EditorState.createEmpty(),
-		editMode: 'block'
+		editMode: 'block',
 	}
 
 	componentDidMount = () => {
-		if (this.props.blogState.hasOwnProperty('content') && this.props.blogState.content.id.toString() === this.props.match.params.articleId) {
+
+		const { blogState, match } = this.props;
+
+		if (blogState.hasOwnProperty('content') && blogState.content.id.toString() === match.params.articleId) {
 			this.setState({
-				editorState: EditorState.createWithContent(ContentState.createFromText(this.props.blogState.content.body)),
+				editorState: EditorState.createWithContent(ContentState.createFromText(blogState.content.body)),
 				editMode: 'none'
 			})
 		}
@@ -33,27 +36,31 @@ class Article extends Component {
 	saveEdits = (e) => {
     e.preventDefault()
 
+		const { blogState, updateArticle } = this.props;
+
     // Ensure that the article isn't empty (has either text or media)
     if (isEqual(stateToHTML(this.state.editorState.getCurrentContent()), '<p><br></p>')) {
       return;
     }
 
-    const index = this.props.blogState.content.id-1;
+    const index = blogState.content.id-1;
     const content = this.state.editorState.getCurrentContent().getPlainText();
     const timestamp = Date.now();
 
-    this.props.updateArticle(index, content, timestamp)
+    updateArticle(index, content, timestamp)
 	}
 
 	render() {
+		const { blogState, match } = this.props;
+
 		const edit = this.state.editMode === 'block'? 'none' : 'block';
 		const regular = this.state.editMode === 'block'? 'block' : 'none';
-		const lastEdit = this.props.blogState.hasOwnProperty('content')? this.props.blogState.content.lastEdit: '';
+		const lastEdit = blogState.hasOwnProperty('content')? blogState.content.lastEdit: '';
 
 		return (
 		 <div>
-			{this.props.blogState.articles.filter(el =>
-				el.id.toString() === this.props.match.params.articleId
+			{blogState.articles.filter(el =>
+				el.id.toString() === match.params.articleId
 			).map(a =>
 				<div className='single-article' key={a.id}>
 					<h2>{a.title}</h2>
@@ -88,6 +95,7 @@ class Article extends Component {
 
 Article.propTypes = {
   blogState: PropTypes.object.isRequired,
+	updateArticle: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired
 }
 

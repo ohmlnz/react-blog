@@ -1,5 +1,5 @@
 // import fetch from 'isomorphic-fetch';
-import firebase from 'firebase'
+import firebase from 'firebase';
 import { articles, provider } from '../helpers/firebase.js';
 
 export const loginSuccessful = (result, user) => {
@@ -44,14 +44,15 @@ export const selectArticle = (article) => {
 	}
 }
 
-export const receiveArticles = (pageIndex, total, arr, lastId) => {
+export const receiveArticles = (pageIndex, total, arr, lastId, firebase) => {
 	return {
 		type: 'RECEIVE_ARTICLES',
 		pageIndex,
 		total,
 		lastId,
 		articles: arr,
-		receivedAt: Date.now()
+		receivedAt: Date.now(),
+		firebase
 	}
 }
 
@@ -81,7 +82,7 @@ export function fetchArticles(pageIndex) {
 				lastId = a[a.length-1].id;
 			}
 			const arr = a.slice(pageIndex, end)
-			dispatch(receiveArticles(pageIndex, total, arr, lastId))
+			dispatch(receiveArticles(pageIndex, total, arr, lastId, firebase))
     });
   }
 }

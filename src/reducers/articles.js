@@ -46,9 +46,12 @@ const articlesReducer = (state = [], action) => {
 			}
 		case 'RECEIVE_ARTICLES':
 			const nothing = action.total !== 0? `There aren't any more articles :'(` : `There aren't any articles :'(`
+			const isLoggedIn = action.firebase.auth().currentUser;
 			return {
 				...state,
 				articles: !action.articles.length? `${nothing}` : action.articles,
+				editMode: isLoggedIn? true : false,
+				addArticle: isLoggedIn? 'block' : 'none',
 				total: action.total,
 				lastId: action.lastId,
 				receivedAt: action.receivedAt,
