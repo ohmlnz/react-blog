@@ -3901,9 +3901,9 @@ minimist@~0.0.1:
   dependencies:
     minimist "0.0.8"
 
-moment-timezone@^0.5.13:
-  version "0.5.33"
-  resolved "https://registry.yarnpkg.com/moment-timezone/-/moment-timezone-0.5.33.tgz#b252fd6bb57f341c9b59a5ab61a8e51a73bbd22c"
+moment-timezone@^0.5.40:
+  version "0.5.40"
+  resolved "https://registry.yarnpkg.com/moment-timezone/-/moment-timezone-0.5.40.tgz#c148f5149fd91dd3e29bf481abc8830ecba16b89"
   dependencies:
     moment ">= 2.9.0"
 
